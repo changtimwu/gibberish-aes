@@ -621,12 +621,18 @@ var GibberishAES = (function(){
 
     dec = function(string, pass, binary) {
         // string, password in plaintext
-        var cryptArr = Base64.decode(string),
-        salt = cryptArr.slice(8, 16),
-        pbe = openSSLKey(s2a(pass, binary), salt),
-        key = pbe.key,
-        iv = pbe.iv;
-        cryptArr = cryptArr.slice(16, cryptArr.length);
+        var cryptArr = Base64.decode(string);
+        var prefix = block2s( cryptArr).slice(0,8);
+        var salt;
+        if (prefix==='Salted__') {
+          salt = cryptArr.slice(8, 16);
+          cryptArr = cryptArr.slice(16, cryptArr.length);
+        }else {
+          salt = [];
+        }
+        var pbe = openSSLKey(s2a(pass, binary), salt);
+        var key = pbe.key;
+        var iv = pbe.iv;
         // Take off the Salted__ffeeddcc
         string = rawDecrypt(cryptArr, key, iv, binary);
         return string;
