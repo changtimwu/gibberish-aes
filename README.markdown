@@ -34,16 +34,32 @@ Thanks to :
 
 #### OpenSSL Interop
 
-  In Jascascript
+  Encrypt in Javascript
   
         GibberishAES.enc("Made with Gibberish\n", "password");
         // Outputs: "U2FsdGVkX1+21O5RB08bavFTq7Yq/gChmXrO3f00tvJaT55A5pPvqw0zFVnHSW1o"
         
-  On the command line
+  Decrypt in the command line
   
         echo "U2FsdGVkX1+21O5RB08bavFTq7Yq/gChmXrO3f00tvJaT55A5pPvqw0zFVnHSW1o" | openssl enc -d -aes-256-cbc -a -k password
 
+  Encrypt in the commandline
 
+        echo "Made with Gibberish" | openssl enc -aes-256-cbc -a -k password
+        // Outputs: "U2FsdGVkX1+21O5RB08bavFTq7Yq/gChmXrO3f00tvJaT55A5pPvqw0zFVnHSW1o"
+  Decrypt in Javascript
+
+        GibberishAES.dec("U2FsdGVkX1+xRXgJax3Oig73vss/v1DTn9F/5wQ8TxLBDCoHuFlHn/Zmd2MGpgO+", "password");
+
+  Encrypt in the commandline with -nosalt
+
+        echo "Made with Gibberish" | openssl enc -aes-256-cbc -a -nosalt -k password
+        // Outputs: "0ay1+ywdqtE+r7H18YI5HXjSB8spwW5nvhms8OEEroI="
+  
+  Decrypt in Javascript
+
+        GibberishAES.dec("0ay1+ywdqtE+r7H18YI5HXjSB8spwW5nvhms8OEEroI=", "password");
+ 
 ### Requirements
 
 None.
